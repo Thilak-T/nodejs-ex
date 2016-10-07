@@ -4,7 +4,7 @@ var express = require('express'),
     app     = express(),
     eps     = require('ejs'),
     morgan  = require('morgan');
-    
+
 Object.assign=require('object-assign')
 
 app.engine('html', require('ejs').renderFile);
@@ -99,6 +99,22 @@ app.use(function(err, req, res, next){
 
 initDb(function(err){
   console.log('Error connecting to Mongo. Message:\n'+err);
+});
+
+// Mine
+app.get('/test', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    db.collection('counts').count(function(err, count ){
+      res.send('{ test: ' + 1 + '}');
+    });
+  } else {
+    res.send('{ pageCount: -1 }');
+  }
 });
 
 app.listen(port, ip);

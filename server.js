@@ -113,7 +113,7 @@ app.get('/test', function (req, res) {
       res.send('{ test: ' + 1 + '}');
     });
   } else {
-    res.send('{ pageCount: -1 }');
+    res.send('{ test: 1 }');
   }
 });
 

@@ -102,19 +102,19 @@ initDb(function(err){
 });
 
 // Mine
-app.get('/test', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    db.collection('counts').count(function(err, count ){
-      res.send('{ test: ' + 1 + '}');
-    });
-  } else {
-    res.send('{ test: 1 }');
-  }
+app.get('/bagjourney', function (req, res) {
+  var options = {
+    host: 'https://bagjourney.sita.aero',
+    port: 443,
+    path: '/baggage/history/v1.0/tag/0016661920/flightdate/2015-10-14',
+    method: 'GET'
+  };
+
+  http.request(options, function(res) {
+  res.on('data', function (chunk) {
+    res.send(chunk);
+  });
+}).end();
 });
 
 app.listen(port, ip);
